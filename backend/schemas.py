@@ -7,6 +7,7 @@ class UserBase(BaseModel):
     phone: str
     pin: Optional[str] = None
     role: Optional[str] = "STUDENT"
+    user_type: Optional[str] = "GENERAL" # GENERAL or MANAGED
 
 class UserCreate(UserBase):
     pass
@@ -31,6 +32,8 @@ class SeatAssign(BaseModel):
 class SeatResponse(SeatBase):
     id: int
     current_user_id: Optional[int] = None
+    current_user_name: Optional[str] = None
+    current_user_type: Optional[str] = None
     occupied_since: Optional[datetime.datetime] = None
 
     class Config:

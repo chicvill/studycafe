@@ -10,6 +10,12 @@ router = APIRouter(prefix="/api/auth", tags=["Auth & Users"])
 def register_user(user: UserCreate, db: Session = Depends(get_db)):
     db_user = db.query(models.User).filter(models.User.phone == user.phone).first()
     if db_user:
+        if user.user_type:
+            db_user.user_type = user.user_type
+        if user.name:
+            db_user.name = user.name
+        db.commit()
+        db.refresh(db_user)
         return db_user
     
     new_user = models.User(
@@ -17,6 +23,7 @@ def register_user(user: UserCreate, db: Session = Depends(get_db)):
         phone=user.phone,
         pin=user.pin or user.phone[-4:],
         role=user.role or "STUDENT",
+        user_type=user.user_type or "GENERAL",
         total_time_remaining=120 # Default 2 free hours
     )
     db.add(new_user)

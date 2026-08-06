@@ -13,12 +13,25 @@ def get_all_seats(db: Session = Depends(get_db)):
     # Seed default 20 seats if empty
     if not seats:
         for i in range(1, 21):
-            zone = "MANAGED" if i <= 5 else ("FOCUS" if i <= 12 else "NORMAL")
-            s = models.Seat(seat_number=f"A-{i:02d}", zone_type=zone, status="EMPTY")
+            s = models.Seat(seat_number=f"A-{i:02d}", zone_type="NORMAL", status="EMPTY")
             db.add(s)
         db.commit()
         seats = db.query(models.Seat).all()
-    return seats
+    
+    response_list = []
+    for s in seats:
+        seat_dict = {
+            "id": s.id,
+            "seat_number": s.seat_number,
+            "zone_type": s.zone_type,
+            "status": s.status,
+            "current_user_id": s.current_user_id,
+            "current_user_name": s.current_user.name if s.current_user else None,
+            "current_user_type": s.current_user.user_type if s.current_user else None,
+            "occupied_since": s.occupied_since
+        }
+        response_list.append(SeatResponse(**seat_dict))
+    return response_list
 
 @router.post("/assign", response_model=SeatResponse)
 def assign_seat(payload: SeatAssign, db: Session = Depends(get_db)):

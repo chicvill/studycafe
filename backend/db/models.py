@@ -11,6 +11,7 @@ class User(Base):
     phone = Column(String(20), unique=True, index=True, nullable=False)
     pin = Column(String(10), nullable=True) # For local kiosk / NFC door authentication
     role = Column(String(20), default="STUDENT") # STUDENT, ADMIN, PARENT
+    user_type = Column(String(20), default="GENERAL") # GENERAL or MANAGED
     total_time_remaining = Column(Integer, default=0) # Remaining minutes
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
 
@@ -26,6 +27,8 @@ class Seat(Base):
     status = Column(String(20), default="EMPTY") # EMPTY, OCCUPIED, RESERVED, MAINTENANCE
     current_user_id = Column(Integer, ForeignKey("users.id"), nullable=True)
     occupied_since = Column(DateTime, nullable=True)
+
+    current_user = relationship("User", foreign_keys=[current_user_id])
 
 class Ticket(Base):
     __tablename__ = "tickets"
