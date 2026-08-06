@@ -3,7 +3,6 @@ import Navbar from './components/Navbar';
 import SeatMapPage from './pages/SeatMapPage';
 import SelfStudyPage from './pages/SelfStudyPage';
 import AdminPage from './pages/AdminPage';
-import { Sparkles, LayoutGrid } from 'lucide-react';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('seats');
@@ -21,26 +20,16 @@ export default function App() {
       .catch((err) => console.error('Error fetching system status:', err));
   }, []);
 
-  // 1. Dedicated Student SelfStudy View (No Admin Navbar)
+  // 1. Dedicated Student SelfStudy View (With Hamburger Navbar)
   if (isDedicatedSelfStudy) {
     return (
       <div className="app-container">
-        <header style={{
-          background: 'linear-gradient(135deg, #1e1b4b, #312e81)',
-          borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
-          padding: '1rem 1.5rem',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center'
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <Sparkles color="#c084fc" size={24} />
-            <h1 style={{ fontSize: '1.25rem', fontWeight: 'bold', color: '#f8fafc' }}>
-              MQnet SelfStudy 학생 전용 케어 센터
-            </h1>
-          </div>
-          <span className="badge badge-standalone">STUDENT MODE</span>
-        </header>
+        <Navbar
+          systemStatus={systemStatus}
+          title="MQnet SelfStudy 학생 전용 케어 센터"
+          badgeText="STUDENT MODE"
+          badgeClass="badge badge-standalone"
+        />
         <main className="main-content">
           <SelfStudyPage />
         </main>
@@ -48,26 +37,16 @@ export default function App() {
     );
   }
 
-  // 2. Dedicated Kiosk Mode View
+  // 2. Dedicated Kiosk Mode View (With Hamburger Navbar)
   if (isDedicatedKiosk) {
     return (
       <div className="app-container">
-        <header style={{
-          background: 'var(--bg-secondary)',
-          borderBottom: '1px solid var(--border-color)',
-          padding: '1rem 1.5rem',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center'
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <LayoutGrid color="#60a5fa" size={24} />
-            <h1 style={{ fontSize: '1.25rem', fontWeight: 'bold', color: '#f8fafc' }}>
-              MQnet 무인 키오스크 입출실
-            </h1>
-          </div>
-          <span className="badge badge-saas">KIOSK MODE</span>
-        </header>
+        <Navbar
+          systemStatus={systemStatus}
+          title="MQnet 무인 키오스크 입출실"
+          badgeText="KIOSK MODE"
+          badgeClass="badge badge-saas"
+        />
         <main className="main-content">
           <SeatMapPage />
         </main>
@@ -82,6 +61,7 @@ export default function App() {
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         systemStatus={systemStatus}
+        title="MQnet StudyCafe"
       />
       <main className="main-content">
         {activeTab === 'seats' && <SeatMapPage />}
