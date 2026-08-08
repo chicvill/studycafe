@@ -28,6 +28,7 @@ def get_all_seats(db: Session = Depends(get_db)):
             "current_user_id": s.current_user_id,
             "current_user_name": s.current_user.name if s.current_user else None,
             "current_user_type": s.current_user.user_type if s.current_user else None,
+            "current_user_phone": s.current_user.phone if s.current_user else None,
             "occupied_since": s.occupied_since
         }
         response_list.append(SeatResponse(**seat_dict))

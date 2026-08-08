@@ -85,6 +85,12 @@ export default function SeatMapPage() {
     }
   };
 
+  const handleOpenSelfStudy = (phone) => {
+    const baseUrl = import.meta.env.VITE_SELFSTUDY_URL || 'https://selfstudy.chicvill.store';
+    const targetUrl = phone ? `${baseUrl}/?parent_code=P-${phone}` : baseUrl;
+    window.open(targetUrl, '_blank');
+  };
+
   return (
     <div>
       <div className="glass-card" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -167,6 +173,18 @@ export default function SeatMapPage() {
               <div style={{ marginBottom: '1rem', fontSize: '0.9rem', color: selectedSeat.current_user_type === 'MANAGED' ? '#c084fc' : '#60a5fa' }}>
                 구분: {selectedSeat.current_user_type === 'MANAGED' ? '관리형 회원' : '일반 회원'}
               </div>
+              
+              {selectedSeat.current_user_type === 'MANAGED' && (
+                <button
+                  onClick={() => handleOpenSelfStudy(selectedSeat.current_user_phone)}
+                  className="btn-primary"
+                  style={{ width: '100%', marginBottom: '0.8rem', background: 'var(--accent-purple)', border: '1px solid #c084fc' }}
+                >
+                  <ShieldCheck size={16} style={{ marginRight: '6px', verticalAlign: 'middle' }} />
+                  SelfStudy 회원 상담 열기
+                </button>
+              )}
+
               <button
                 onClick={() => handleCheckoutSeat(selectedSeat.seat_number)}
                 className="btn-primary"

@@ -34,6 +34,7 @@ class SeatResponse(SeatBase):
     current_user_id: Optional[int] = None
     current_user_name: Optional[str] = None
     current_user_type: Optional[str] = None
+    current_user_phone: Optional[str] = None
     occupied_since: Optional[datetime.datetime] = None
 
     class Config:
