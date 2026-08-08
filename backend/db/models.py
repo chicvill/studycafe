@@ -16,7 +16,6 @@ class User(Base):
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
 
     tickets = relationship("Ticket", back_populates="user")
-    study_sessions = relationship("SelfStudySession", back_populates="user")
 
 class Seat(Base):
     __tablename__ = "seats"
@@ -51,16 +50,3 @@ class DoorLog(Base):
     action = Column(String(20), nullable=False) # ENTRY, EXIT, DENIED
     timestamp = Column(DateTime, default=datetime.datetime.utcnow)
 
-class SelfStudySession(Base):
-    """Side Module: SelfStudy AI Study Care & Focus Tracking Model"""
-    __tablename__ = "selfstudy_sessions"
-
-    id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
-    subject = Column(String(50), default="General Study")
-    start_time = Column(DateTime, default=datetime.datetime.utcnow)
-    end_time = Column(DateTime, nullable=True)
-    focus_score = Column(Float, default=100.0) # 0.0 to 100.0 AI focus score
-    ai_summary = Column(Text, nullable=True)
-
-    user = relationship("User", back_populates="study_sessions")

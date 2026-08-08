@@ -52,23 +52,3 @@ class TicketResponse(TicketCreate):
     class Config:
         from_attributes = True
 
-class SelfStudySessionCreate(BaseModel):
-    user_id: int
-    subject: str = "General Study"
-
-class SelfStudySessionResponse(BaseModel):
-    id: int
-    user_id: int
-    subject: str
-    start_time: datetime.datetime
-    end_time: Optional[datetime.datetime] = None
-    focus_score: float
-    ai_summary: Optional[str] = None
-
-    class Config:
-        from_attributes = True
-
-class AIQuestionRequest(BaseModel):
-    user_id: int
-    question: str
-    context_subject: Optional[str] = None

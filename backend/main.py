@@ -38,18 +38,12 @@ app.include_router(tickets.router)
 if settings.ENABLE_NFC_DOOR:
     app.include_router(nfc_door.router)
 
-# Register SelfStudy Side Module conditionally
-if settings.ENABLE_SELFSTUDY:
-    from backend.routers import selfstudy
-    app.include_router(selfstudy.router)
-    logger.info("[MODULE] SelfStudy AI Care Side Module Enabled!")
 
 @app.get("/api/system-status")
 def get_system_status():
     return {
         "deployment_mode": settings.DEPLOYMENT_MODE,
         "is_standalone": settings.is_standalone,
-        "enable_selfstudy": settings.ENABLE_SELFSTUDY,
         "enable_nfc_door": settings.ENABLE_NFC_DOOR,
         "database": settings.DATABASE_URL.split(":///")[0],
         "status": "HEALTHY"

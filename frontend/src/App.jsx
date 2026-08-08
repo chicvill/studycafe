@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import SeatMapPage from './pages/SeatMapPage';
-import SelfStudyPage from './pages/SelfStudyPage';
 import AdminPage from './pages/AdminPage';
 
 export default function App() {
@@ -10,7 +9,6 @@ export default function App() {
 
   // Check URL pathname for direct dedicated views
   const path = window.location.pathname.toLowerCase();
-  const isDedicatedSelfStudy = path === '/selfstudy' || path.startsWith('/selfstudy/');
   const isDedicatedKiosk = path === '/kiosk' || path.startsWith('/kiosk/');
 
   useEffect(() => {
@@ -19,23 +17,6 @@ export default function App() {
       .then((data) => setSystemStatus(data))
       .catch((err) => console.error('Error fetching system status:', err));
   }, []);
-
-  // 1. Dedicated Student SelfStudy View (With Hamburger Navbar)
-  if (isDedicatedSelfStudy) {
-    return (
-      <div className="app-container">
-        <Navbar
-          systemStatus={systemStatus}
-          title="MQnet SelfStudy 학생 전용 케어 센터"
-          badgeText="STUDENT MODE"
-          badgeClass="badge badge-standalone"
-        />
-        <main className="main-content">
-          <SelfStudyPage />
-        </main>
-      </div>
-    );
-  }
 
   // 2. Dedicated Kiosk Mode View (With Hamburger Navbar)
   if (isDedicatedKiosk) {
@@ -65,7 +46,6 @@ export default function App() {
       />
       <main className="main-content">
         {activeTab === 'seats' && <SeatMapPage />}
-        {activeTab === 'selfstudy' && <SelfStudyPage />}
         {activeTab === 'admin' && <AdminPage systemStatus={systemStatus} />}
       </main>
     </div>

@@ -29,12 +29,6 @@ export default function Navbar({ activeTab, setActiveTab, systemStatus, title, b
       } else {
         window.location.href = '/';
       }
-    } else if (target === 'selfstudy') {
-      if (setActiveTab && window.location.pathname === '/') {
-        setActiveTab('selfstudy');
-      } else {
-        window.location.href = '/selfstudy';
-      }
     } else if (target === 'admin') {
       if (setActiveTab && window.location.pathname === '/') {
         setActiveTab('admin');
@@ -122,25 +116,6 @@ export default function Navbar({ activeTab, setActiveTab, systemStatus, title, b
               통합 좌석관리
             </button>
 
-            {systemStatus?.enable_selfstudy !== false && (
-              <button
-                onClick={() => handleNavigate('selfstudy')}
-                className="btn-primary"
-                style={{
-                  background: activeTab === 'selfstudy' || window.location.pathname.startsWith('/selfstudy') ? 'var(--accent-purple)' : 'rgba(255, 255, 255, 0.05)',
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
-                  justifyContent: 'flex-start',
-                  width: '100%',
-                  padding: '0.7rem 0.9rem',
-                  fontSize: '0.9rem',
-                  color: '#fff'
-                }}
-              >
-                <Sparkles size={18} style={{ marginRight: '10px', color: '#c084fc' }} />
-                SelfStudy AI 케어센터
-              </button>
-            )}
-
             <button
               onClick={() => handleNavigate('admin')}
               className="btn-primary"
@@ -175,28 +150,7 @@ export default function Navbar({ activeTab, setActiveTab, systemStatus, title, b
               무인 키오스크 (/kiosk)
             </button>
 
-            <a
-              href="/selfstudy"
-              target="_blank"
-              rel="noreferrer"
-              onClick={() => setIsMenuOpen(false)}
-              className="btn-primary"
-              style={{
-                background: 'rgba(192, 132, 252, 0.15)',
-                border: '1px solid var(--accent-purple)',
-                color: '#c084fc',
-                textDecoration: 'none',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'flex-start',
-                width: '100%',
-                padding: '0.7rem 0.9rem',
-                fontSize: '0.9rem'
-              }}
-            >
-              <ExternalLink size={18} style={{ marginRight: '10px' }} />
-              학생전용창 (/selfstudy 새창)
-            </a>
+
           </div>
         )}
       </div>
